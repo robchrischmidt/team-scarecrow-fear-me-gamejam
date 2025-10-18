@@ -57,7 +57,7 @@ func _ready() -> void:
 	state_machine.add_state("Idle", idle_enter, null, idle_phys_process)
 	state_machine.add_state("Move", move_enter, null, move_phys_process, move_exit)
 	state_machine.add_state("JumpWindup", jump_windup_enter, jump_windup_process, null, jump_windup_exit)
-	state_machine.add_state("Jump", jump_enter, null, null)
+	state_machine.add_state("Jumping", jump_enter, null, jumping_phys_process)
 	state_machine.add_state("AirIdle", air_idle_enter, null, air_idle_phys_process)
 	state_machine.add_state("AirMove", air_move_enter, null, air_move_phys_process)
 	state_machine.add_state("FallIdle", fall_idle_enter, null, fall_idle_phys_process)
@@ -76,9 +76,9 @@ func _physics_process(delta: float) -> void:
 func apply_movement():
 	c_body.velocity.x = move_dir.x * move_speed
 
-func apply_jump(jump_force : float = 0, jump_dir: Vector2 = Vector2.UP):
-	print("Jumping with force ", jump_force)
-	c_body.velocity.y = -jump_force
+func apply_jump(jump_force: Vector2):
+	print("Jumping: ", jump_force)
+	c_body.velocity = jump_force
 
 func apply_gravity(delta : float, gravity_scale := 1.0):
 	c_body.velocity.y += ((gravity * gravity_scale) * delta * Engine.physics_ticks_per_second)
@@ -88,22 +88,26 @@ func jump_windup_enter():
 	jump_start_tick_msec = Time.get_ticks_msec()
 	
 func jump_windup_process(delta : float):
-	
+	c_body.velocity = c_body.velocity / decelleration
 	var line : Line2D = jump_hud.get_node("JumpLine")
+	
+	var ratio_distance = 
+	var mouse_position = c_body.get_local_mouse_position()
 	
 	line.points[1] = c_body.get_local_mouse_position()
 		
 	if Input.is_action_just_released("Jump"):
-		state_machine.transfer("AirIdle")
+		state_machine.transfer("Jumping")
 		return
 	
 func jump_windup_exit():
-	jump_hud.visible = false
-	
 	var jump_apply_force = min((Time.get_ticks_msec() - jump_start_tick_msec)/(jump_windup_msec), 1) * (jump_max_force - jump_min_force) + jump_min_force
-	var jump_dir = c_body.position.angle_to_point(c_body.get_local_mouse_position())
-	print("jump_dir", Vector2.from_angle(jump_dir))
-	apply_jump(jump_apply_force)
+	var jump_dir = Vector2.from_angle(Vector2.ZERO.angle_to_point(c_body.get_local_mouse_position())).normalized()
+	apply_jump(jump_apply_force * jump_dir)
+	
+	jumping = true
+	jump_hud.visible = false
+	jump_start_tick_msec = INF
 
 func idle_enter():
 	_idle.emit()
@@ -146,17 +150,22 @@ func move_exit():
 	pass
 
 func jump_enter():
-	jumping = true
-	apply_jump()
+#	Jump will already be applied by now. This is the state that stays until the cat starts falling
+	#apply_movement()
+	pass
 	
-	apply_movement()
-	
-	if move_dir.x == 0:
-		_jump_idle.emit()
+
+func jumping_phys_process(delta: float):
+	if c_body.velocity.y > 0 && is_zero_approx(c_body.velocity.x):
 		state_machine.transfer("AirIdle")
-	else:
-		_jump_move.emit()
+	if c_body.velocity.y > 0 && not is_zero_approx(c_body.velocity.x):
 		state_machine.transfer("AirMove")
+	if c_body.is_on_floor():
+		state_machine.transfer("Move")
+	
+	apply_gravity(delta)
+	
+
 
 func air_idle_enter():
 	_air_idle.emit()
