@@ -19,6 +19,8 @@ signal _dash_end
 @export_group("Basics")
 @export var move_speed : float
 @export var gravity : float
+@export var decelleration : float = 1.1
+
 
 @export_group("Jump")
 @export var jump_force : float
@@ -29,6 +31,15 @@ signal _dash_end
 @export_group("Dash")
 @export var dash_force : float
 @export var base_stamina := 1
+
+## The jump winds up linearly with respect to these two variables.
+@export_group("Jump")
+@export var jump_min_force : float = 50
+@export var jump_max_force : float = 1000
+@export var jump_windup_msec : float = 1000
+@export var jump_hud : Node2D
+
+var jump_start_tick_msec : float
 
 var state_machine : StateMachine
 
@@ -45,6 +56,7 @@ func _ready() -> void:
 	state_machine = StateMachine.create(self)
 	state_machine.add_state("Idle", idle_enter, null, idle_phys_process)
 	state_machine.add_state("Move", move_enter, null, move_phys_process, move_exit)
+	state_machine.add_state("JumpWindup", jump_windup_enter, jump_windup_process, null, jump_windup_exit)
 	state_machine.add_state("Jump", jump_enter, null, null)
 	state_machine.add_state("AirIdle", air_idle_enter, null, air_idle_phys_process)
 	state_machine.add_state("AirMove", air_move_enter, null, air_move_phys_process)
@@ -64,11 +76,34 @@ func _physics_process(delta: float) -> void:
 func apply_movement():
 	c_body.velocity.x = move_dir.x * move_speed
 
-func apply_jump():
+func apply_jump(jump_force : float = 0, jump_dir: Vector2 = Vector2.UP):
+	print("Jumping with force ", jump_force)
 	c_body.velocity.y = -jump_force
 
 func apply_gravity(delta : float, gravity_scale := 1.0):
 	c_body.velocity.y += ((gravity * gravity_scale) * delta * Engine.physics_ticks_per_second)
+
+func jump_windup_enter():
+	jump_hud.visible = true
+	jump_start_tick_msec = Time.get_ticks_msec()
+	
+func jump_windup_process(delta : float):
+	
+	var line : Line2D = jump_hud.get_node("JumpLine")
+	
+	line.points[1] = c_body.get_local_mouse_position()
+		
+	if Input.is_action_just_released("Jump"):
+		state_machine.transfer("AirIdle")
+		return
+	
+func jump_windup_exit():
+	jump_hud.visible = false
+	
+	var jump_apply_force = min((Time.get_ticks_msec() - jump_start_tick_msec)/(jump_windup_msec), 1) * (jump_max_force - jump_min_force) + jump_min_force
+	var jump_dir = c_body.position.angle_to_point(c_body.get_local_mouse_position())
+	print("jump_dir", Vector2.from_angle(jump_dir))
+	apply_jump(jump_apply_force)
 
 func idle_enter():
 	_idle.emit()
@@ -76,11 +111,17 @@ func idle_enter():
 func idle_phys_process(delta : float):
 	if move_dir.x != 0:
 		state_machine.transfer("Move")
+		return
+	if c_body.velocity.y > 0:
+		state_machine.transfer("FallIdle")
+		return
+		
+	c_body.velocity.x = c_body.velocity.x / decelleration
 		
 	apply_gravity(delta)
 		
 	if can_jump():
-		state_machine.transfer("Jump", "Idle")
+		state_machine.transfer("JumpWindup", "Idle")
 		return
 
 func move_enter():
@@ -90,23 +131,25 @@ func move_phys_process(delta : float):
 	if move_dir.x == 0:
 		state_machine.transfer("Idle")
 		return
+	if c_body.velocity.y > 0: 
+		state_machine.transfer("FallMove")
 
 	apply_movement()
 	apply_gravity(delta)
 	
 	if can_jump():
-		state_machine.transfer("Jump", "Move")
+		state_machine.transfer("JumpWindup", "Move")
 		return
 
 func move_exit():
-	c_body.velocity.x = 0
+	#c_body.velocity.x = 0
+	pass
 
 func jump_enter():
 	jumping = true
 	apply_jump()
 	
-	if move_dir.x != 0:
-		apply_movement()
+	apply_movement()
 	
 	if move_dir.x == 0:
 		_jump_idle.emit()
@@ -121,6 +164,8 @@ func air_idle_enter():
 func air_idle_phys_process(delta : float):
 	apply_gravity(delta)
 	
+	c_body.velocity.x = c_body.velocity.x / decelleration
+	
 	if (jumping && (c_body.velocity.y > 0 || !Input.is_action_pressed("Jump"))):
 		jumping = false
 		state_machine.transfer("FallIdle")
@@ -130,7 +175,7 @@ func air_idle_phys_process(delta : float):
 	elif move_dir.x != 0:
 		state_machine.transfer("AirMove")
 	elif can_jump():
-		state_machine.transfer("Jump")
+		state_machine.transfer("JumpWindup")
 	elif c_body.is_on_floor():
 		state_machine.transfer("Idle")
 
@@ -138,9 +183,6 @@ func air_move_enter():
 	_air_move.emit()
 
 func air_move_phys_process(delta : float):
-	apply_gravity(delta)
-	apply_movement()
-	
 	if (jumping && (c_body.velocity.y > 0 || !Input.is_action_pressed("Jump"))):
 		jumping = false
 		state_machine.transfer("FallMove")
@@ -150,11 +192,15 @@ func air_move_phys_process(delta : float):
 	elif move_dir.x == 0:
 		state_machine.transfer("AirIdle")
 	elif can_jump():
-		state_machine.transfer("Jump")
+		state_machine.transfer("JumpWindup")
 	elif c_body.is_on_floor():
 		_land.emit()
 		state_machine.transfer("Move")
-
+	else:
+		apply_movement()
+		apply_gravity(delta)
+		
+		
 func fall_idle_enter():
 	_fall_idle.emit()
 	if c_body.velocity.y < 0:
@@ -168,7 +214,7 @@ func fall_idle_phys_process(delta : float):
 	elif move_dir.x != 0:
 		state_machine.transfer("FallMove")
 	elif can_jump():
-		state_machine.transfer("Jump")
+		state_machine.transfer("JumpWindup")
 	elif c_body.is_on_floor():
 		_land.emit()
 		state_machine.transfer("Idle")
@@ -187,13 +233,13 @@ func fall_move_phys_process(delta : float):
 	elif move_dir.x == 0:
 		state_machine.transfer("FallIdle")
 	elif can_jump():
-		state_machine.transfer("Jump")
+		state_machine.transfer("JumpWindup")
 	elif c_body.is_on_floor():
 		_land.emit()
 		state_machine.transfer("Move")
 
 func can_jump():
-	if Input.is_action_just_pressed("Jump"):
+	if Input.is_action_pressed("Jump"):
 		jump_request_timestamp_msec = Time.get_ticks_msec()
 	
 	if c_body.is_on_floor():
@@ -207,6 +253,12 @@ func can_jump():
 	return !jumping && time_since_jump_request < jump_queue_length_msec && time_since_on_ground < coyote_time_length_msec
 
 func dash_enter():
+	
+	if move_dir == Vector2.ZERO:
+		pass
+		
+	
+	
 	_dash_begin.emit()
 	c_body.velocity = move_dir.normalized() * dash_force
 	await get_tree().create_timer(0.2).timeout
@@ -218,7 +270,7 @@ func dash_enter():
 
 func dash_phys_process(delta : float):
 	if can_jump():
-		state_machine.transfer("Jump")
+		state_machine.transfer("JumpWindup")
 	elif c_body.is_on_floor():
 		_land.emit()
 		state_machine.transfer("Move")
