@@ -1,0 +1,87 @@
+[gd_scene load_steps=13 format=3 uid="uid://bl6wh4amp8ljg"]
+
+[ext_resource type="Script" uid="uid://c1kret0ix6iht" path="res://Objects/Player/Player.gd" id="1_we6tp"]
+[ext_resource type="Script" uid="uid://br1vs868dmesp" path="res://Objects/Player/Effects.gd" id="2_oansn"]
+[ext_resource type="AudioStream" uid="uid://cmkomykh5p18s" path="res://Assets/Sound/Essentials_Series_NOX_SOUND/Nature_Essentials_NOX_SOUND/Ambiance_Cicadas_Loop_Stereo.wav" id="3_1qpp8"]
+[ext_resource type="Script" uid="uid://b0hot2esg3sgb" path="res://Objects/Player/MovementController.gd" id="3_cac6a"]
+[ext_resource type="AudioStream" uid="uid://jl13hcmpsnxl" path="res://Assets/Sound/Essentials_Series_NOX_SOUND/Iceland_Packs_NOX_SOUND/Iceland_Flows_NOX_SOUND/Ambiance_Stream_Big_Seljalandsfoss_Loop_Stereo_01.wav" id="4_nd6ml"]
+[ext_resource type="AudioStream" uid="uid://6udwa4dgpofu" path="res://Assets/Sound/Essentials_Series_NOX_SOUND/Electromagnetic_NOX_SOUND/Electromagnetic_Smartphone_On&Off_Mono_Elektrousi.wav" id="5_y01d7"]
+[ext_resource type="Script" uid="uid://byqix2nl7u2m" path="res://Objects/Player/Animation.gd" id="6_nd6ml"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_we6tp"]
+size = Vector2(32, 32)
+
+[sub_resource type="Gradient" id="Gradient_oansn"]
+colors = PackedColorArray(0.956863, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_cac6a"]
+gradient = SubResource("Gradient_oansn")
+width = 32
+height = 32
+
+[sub_resource type="Curve" id="Curve_nd6ml"]
+_limits = [0.0, 2.0, 0.0, 1.0]
+_data = [Vector2(0, 1.00903), 0.0, 0.0, 0, 0, Vector2(1, 2), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Resource" id="Resource_y01d7"]
+script = ExtResource("6_nd6ml")
+loop = false
+duration = 0.0
+x_scale = SubResource("Curve_nd6ml")
+metadata/_custom_type_script = "uid://byqix2nl7u2m"
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_we6tp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_we6tp")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("GradientTexture2D_cac6a")
+
+[node name="Effects" type="Node" parent="." node_paths=PackedStringArray("sprite", "speaker")]
+script = ExtResource("2_oansn")
+sprite = NodePath("../Sprite2D")
+speaker = NodePath("../AudioStreamPlayer")
+debug = true
+enable_animation = true
+move_sound = ExtResource("3_1qpp8")
+jump_sound = ExtResource("4_nd6ml")
+land_sound = ExtResource("5_y01d7")
+move_anim = SubResource("Resource_y01d7")
+
+[node name="MovementController" type="Node" parent="." node_paths=PackedStringArray("c_body")]
+script = ExtResource("3_cac6a")
+c_body = NodePath("..")
+move_speed = 400.0
+gravity = 40.0
+jump_force = 700.0
+jump_queue_length_msec = 50
+coyote_time_length_msec = 200
+fall_gravity_mult = 1.0
+metadata/_custom_type_script = "uid://b0hot2esg3sgb"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="Particals" type="Node2D" parent="."]
+
+[node name="Idle" type="CPUParticles2D" parent="Particals"]
+emitting = false
+direction = Vector2(0, 1)
+gravity = Vector2(0, 0)
+initial_velocity_max = 100.0
+scale_amount_min = 4.0
+scale_amount_max = 8.0
+
+[connection signal="_air_idle" from="MovementController" to="Effects" method="_air_idle"]
+[connection signal="_air_move" from="MovementController" to="Effects" method="_air_move"]
+[connection signal="_dash_begin" from="MovementController" to="Effects" method="_dash_begin"]
+[connection signal="_dash_end" from="MovementController" to="Effects" method="_dash_end"]
+[connection signal="_fall_idle" from="MovementController" to="Effects" method="_fall_idle"]
+[connection signal="_fall_move" from="MovementController" to="Effects" method="_fall_move"]
+[connection signal="_idle" from="MovementController" to="Effects" method="_idle"]
+[connection signal="_jump_idle" from="MovementController" to="Effects" method="_jump_idle"]
+[connection signal="_jump_move" from="MovementController" to="Effects" method="_jump_move"]
+[connection signal="_land" from="MovementController" to="Effects" method="_land"]
+[connection signal="_move" from="MovementController" to="Effects" method="_move"]
