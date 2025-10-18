@@ -53,16 +53,11 @@ script = ExtResource("3_cac6a")
 c_body = NodePath("..")
 move_speed = 400.0
 gravity = 40.0
-decelleration = null
 jump_force = 700.0
 jump_queue_length_msec = 10
 coyote_time_length_msec = 200
 fall_gravity_mult = 1.0
 dash_force = 1000.0
-base_stamina = null
-jump_min_force = null
-jump_max_force = null
-jump_windup_msec = null
 jump_hud = NodePath("../JumpWindupHUD")
 metadata/_custom_type_script = "uid://b0hot2esg3sgb"
 

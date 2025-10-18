@@ -90,8 +90,7 @@ func jump_windup_enter():
 func jump_windup_process(delta : float):
 	c_body.velocity = c_body.velocity / decelleration
 	var line : Line2D = jump_hud.get_node("JumpLine")
-	
-	var ratio_distance = 
+
 	var mouse_position = c_body.get_local_mouse_position()
 	
 	line.points[1] = c_body.get_local_mouse_position()
