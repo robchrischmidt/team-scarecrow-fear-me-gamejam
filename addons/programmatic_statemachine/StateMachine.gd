@@ -5,7 +5,7 @@ extends Node
 var state_array : Array[State]
 var current_state : State
 var paused_state : State
-var debug : bool = true
+var debug : bool = false
 var delta : float
 
 ## Creates a new state machine object
