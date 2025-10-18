@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bl6wh4amp8ljg"]
+[gd_scene load_steps=9 format=3 uid="uid://bl6wh4amp8ljg"]
 
 [ext_resource type="Script" uid="uid://c1kret0ix6iht" path="res://Objects/Player/Player.gd" id="1_we6tp"]
 [ext_resource type="Script" uid="uid://br1vs868dmesp" path="res://Objects/Player/Effects.gd" id="2_oansn"]
@@ -6,10 +6,10 @@
 [ext_resource type="Texture2D" uid="uid://how8nd5sgkun" path="res://Assets/Art/Dot.png" id="4_b0me6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_we6tp"]
-size = Vector2(265, 128)
+size = Vector2(128, 128)
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_cac6a"]
-size = Vector2(256, 128)
+size = Vector2(128, 128)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_b0me6"]
 animations = [{
@@ -28,6 +28,9 @@ animations = [{
 "name": &"new_animation_1",
 "speed": 5.0
 }]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_b872d"]
+animations = []
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_we6tp")
@@ -52,12 +55,19 @@ enable_animation = true
 script = ExtResource("3_cac6a")
 c_body = NodePath("..")
 move_speed = 400.0
+climb_speed = 200.0
 gravity = 40.0
+decelleration = 1.1
+climb_decelleration = 1.2
 jump_force = 700.0
 jump_queue_length_msec = 10
 coyote_time_length_msec = 200
 fall_gravity_mult = 1.0
 dash_force = 1000.0
+small_jump_force = 700.0
+jump_min_force = 700.0
+jump_max_force = 1500.0
+jump_windup_msec = 1000.0
 jump_hud = NodePath("../JumpWindupHUD")
 metadata/_custom_type_script = "uid://b0hot2esg3sgb"
 
@@ -85,6 +95,10 @@ texture_mode = 1
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_b0me6")
 animation = &"new_animation"
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_b872d")
+animation = &""
 
 [connection signal="_air_idle" from="MovementController" to="Effects" method="_air_idle"]
 [connection signal="_air_move" from="MovementController" to="Effects" method="_air_move"]
