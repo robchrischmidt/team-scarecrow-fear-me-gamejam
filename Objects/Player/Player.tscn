@@ -1,33 +1,17 @@
-[gd_scene load_steps=8 format=3 uid="uid://bl6wh4amp8ljg"]
+[gd_scene load_steps=9 format=3 uid="uid://bl6wh4amp8ljg"]
 
 [ext_resource type="Script" uid="uid://c1kret0ix6iht" path="res://Objects/Player/Player.gd" id="1_we6tp"]
 [ext_resource type="Script" uid="uid://br1vs868dmesp" path="res://Objects/Player/Effects.gd" id="2_oansn"]
 [ext_resource type="Script" uid="uid://b0hot2esg3sgb" path="res://Objects/Player/MovementController.gd" id="3_cac6a"]
 [ext_resource type="Texture2D" uid="uid://how8nd5sgkun" path="res://Assets/Art/Dot.png" id="4_b0me6"]
+[ext_resource type="SpriteFrames" uid="uid://dc7obffplb4yl" path="res://Assets/Art/cat.tres" id="5_b872d"]
+[ext_resource type="Script" uid="uid://23wjywdm36a6" path="res://Objects/Player/AnimatedSprite2d.gd" id="6_1qpp8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_we6tp"]
-size = Vector2(265, 128)
+size = Vector2(128, 128)
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_cac6a"]
-size = Vector2(256, 128)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_b0me6"]
-animations = [{
-"frames": [],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}, {
-"frames": [],
-"loop": true,
-"name": &"new_animation",
-"speed": 10.0
-}, {
-"frames": [],
-"loop": true,
-"name": &"new_animation_1",
-"speed": 5.0
-}]
+size = Vector2(128, 128)
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_we6tp")
@@ -38,6 +22,7 @@ script = ExtResource("1_we6tp")
 shape = SubResource("RectangleShape2D_we6tp")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 texture = SubResource("PlaceholderTexture2D_cac6a")
 
 [node name="Effects" type="Node" parent="." node_paths=PackedStringArray("sprite", "speaker")]
@@ -83,17 +68,28 @@ texture = ExtResource("4_b0me6")
 texture_mode = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_b0me6")
-animation = &"new_animation"
+sprite_frames = ExtResource("5_b872d")
+animation = &"fall"
+autoplay = "climb"
+offset = Vector2(0, 5)
+script = ExtResource("6_1qpp8")
 
 [connection signal="_air_idle" from="MovementController" to="Effects" method="_air_idle"]
+[connection signal="_air_idle" from="MovementController" to="AnimatedSprite2D" method="_on_movement_controller__air_idle"]
 [connection signal="_air_move" from="MovementController" to="Effects" method="_air_move"]
+[connection signal="_air_move" from="MovementController" to="AnimatedSprite2D" method="_on_movement_controller__air_move"]
 [connection signal="_dash_begin" from="MovementController" to="Effects" method="_dash_begin"]
 [connection signal="_dash_end" from="MovementController" to="Effects" method="_dash_end"]
 [connection signal="_fall_idle" from="MovementController" to="Effects" method="_fall_idle"]
+[connection signal="_fall_idle" from="MovementController" to="AnimatedSprite2D" method="_on_movement_controller__fall_idle"]
 [connection signal="_fall_move" from="MovementController" to="Effects" method="_fall_move"]
+[connection signal="_fall_move" from="MovementController" to="AnimatedSprite2D" method="_on_movement_controller__fall_move"]
 [connection signal="_idle" from="MovementController" to="Effects" method="_idle"]
+[connection signal="_idle" from="MovementController" to="AnimatedSprite2D" method="_on_movement_controller__idle"]
 [connection signal="_jump_idle" from="MovementController" to="Effects" method="_jump_idle"]
+[connection signal="_jump_idle" from="MovementController" to="AnimatedSprite2D" method="_on_movement_controller__jump_idle"]
 [connection signal="_jump_move" from="MovementController" to="Effects" method="_jump_move"]
+[connection signal="_jump_move" from="MovementController" to="AnimatedSprite2D" method="_on_movement_controller__jump_move"]
 [connection signal="_land" from="MovementController" to="Effects" method="_land"]
 [connection signal="_move" from="MovementController" to="Effects" method="_move"]
+[connection signal="_move" from="MovementController" to="AnimatedSprite2D" method="_on_movement_controller__move"]
