@@ -13,6 +13,9 @@ size = Vector2(128, 128)
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_cac6a"]
 size = Vector2(128, 128)
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_b872d"]
+animations = []
+
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_we6tp")
 
@@ -37,12 +40,19 @@ enable_animation = true
 script = ExtResource("3_cac6a")
 c_body = NodePath("..")
 move_speed = 400.0
+climb_speed = 200.0
 gravity = 40.0
+decelleration = 1.1
+climb_decelleration = 1.2
 jump_force = 700.0
 jump_queue_length_msec = 10
 coyote_time_length_msec = 200
 fall_gravity_mult = 1.0
 dash_force = 1000.0
+small_jump_force = 700.0
+jump_min_force = 700.0
+jump_max_force = 1500.0
+jump_windup_msec = 1000.0
 jump_hud = NodePath("../JumpWindupHUD")
 metadata/_custom_type_script = "uid://b0hot2esg3sgb"
 
@@ -73,6 +83,10 @@ animation = &"fall"
 autoplay = "climb"
 offset = Vector2(0, 5)
 script = ExtResource("6_1qpp8")
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_b872d")
+animation = &""
 
 [connection signal="_air_idle" from="MovementController" to="Effects" method="_air_idle"]
 [connection signal="_air_idle" from="MovementController" to="AnimatedSprite2D" method="_on_movement_controller__air_idle"]
