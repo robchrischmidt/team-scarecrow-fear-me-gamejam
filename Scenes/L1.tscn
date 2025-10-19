@@ -36,7 +36,7 @@ collision_visibility_mode = 1
 [node name="doorInitial" parent="." groups=["doors"] instance=ExtResource("4_bhcnn")]
 position = Vector2(1176, 128)
 
-[node name="door" parent="." instance=ExtResource("4_bhcnn")]
+[node name="door" parent="." groups=["doors"] instance=ExtResource("4_bhcnn")]
 position = Vector2(3480, 128)
 
 [node name="Chandelier" parent="." instance=ExtResource("9_l1men")]
