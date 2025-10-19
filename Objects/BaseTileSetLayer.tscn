@@ -1,0 +1,58 @@
+[gd_scene load_steps=8 format=3 uid="uid://db6xofyn06ygh"]
+
+[ext_resource type="Texture2D" uid="uid://bvf4q8dm7gc5b" path="res://Assets/Art/pictures.png" id="1_3dftm"]
+[ext_resource type="Texture2D" uid="uid://cj01bn3r67jxd" path="res://Assets/Art/moving_chandelier.png" id="2_714q0"]
+[ext_resource type="Texture2D" uid="uid://be23n7du44cea" path="res://Assets/Art/baseTiles.png" id="3_nmhje"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jdymk"]
+texture = ExtResource("1_3dftm")
+texture_region_size = Vector2i(128, 128)
+1:2/0 = 0
+1:3/0 = 0
+2:2/size_in_atlas = Vector2i(2, 1)
+2:2/0 = 0
+2:3/size_in_atlas = Vector2i(2, 1)
+2:3/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mvaav"]
+texture = ExtResource("2_714q0")
+texture_region_size = Vector2i(128, 128)
+0:0/size_in_atlas = Vector2i(2, 2)
+0:0/0 = 0
+2:0/size_in_atlas = Vector2i(2, 2)
+2:0/0 = 0
+0:2/size_in_atlas = Vector2i(2, 2)
+0:2/0 = 0
+2:2/size_in_atlas = Vector2i(2, 2)
+2:2/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ck2ba"]
+texture = ExtResource("3_nmhje")
+texture_region_size = Vector2i(128, 128)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+1:1/0 = 0
+0:1/0 = 0
+3:0/0 = 0
+3:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+3:1/0 = 0
+3:2/0 = 0
+2:3/size_in_atlas = Vector2i(2, 1)
+2:3/0 = 0
+2:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-119.193, -17.494, 116.86, -17.0275, 116.86, -0.699768, -119.659, -0.699768)
+2:0/size_in_atlas = Vector2i(1, 3)
+2:0/0 = 0
+0:2/size_in_atlas = Vector2i(2, 2)
+0:2/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_gjrna"]
+tile_size = Vector2i(128, 128)
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_jdymk")
+sources/1 = SubResource("TileSetAtlasSource_mvaav")
+sources/2 = SubResource("TileSetAtlasSource_ck2ba")
+
+[node name="BaseTileSetLayer" type="TileMapLayer"]
+tile_set = SubResource("TileSet_gjrna")

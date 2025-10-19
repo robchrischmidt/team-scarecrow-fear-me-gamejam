@@ -1,0 +1,105 @@
+[gd_scene load_steps=15 format=3 uid="uid://chrrxglfqtlrn"]
+
+[ext_resource type="Script" uid="uid://bdmhhtnklmndn" path="res://Objects/Chandelier/Chandelier.gd" id="1_s5dcb"]
+[ext_resource type="Texture2D" uid="uid://be23n7du44cea" path="res://Assets/Art/baseTiles.png" id="2_c7wfy"]
+[ext_resource type="Texture2D" uid="uid://cj01bn3r67jxd" path="res://Assets/Art/moving_chandelier.png" id="3_kvggw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s5dcb"]
+size = Vector2(224, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jc54q"]
+atlas = ExtResource("2_c7wfy")
+region = Rect2(0, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mvjli"]
+atlas = ExtResource("2_c7wfy")
+region = Rect2(0, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ncsd"]
+atlas = ExtResource("3_kvggw")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lu8uy"]
+atlas = ExtResource("3_kvggw")
+region = Rect2(0, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ty1qr"]
+atlas = ExtResource("3_kvggw")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pdcpp"]
+atlas = ExtResource("3_kvggw")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iyeow"]
+atlas = ExtResource("3_kvggw")
+region = Rect2(256, 256, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3svs8"]
+atlas = ExtResource("3_kvggw")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qtlwo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jc54q")
+}],
+"loop": false,
+"name": &"stable",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mvjli")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7ncsd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lu8uy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ty1qr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mvjli")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pdcpp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iyeow")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3svs8")
+}],
+"loop": true,
+"name": &"sway",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qtlwo"]
+size = Vector2(206, 5)
+
+[node name="Chandelier" type="StaticBody2D"]
+script = ExtResource("1_s5dcb")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_s5dcb")
+debug_color = Color(0.786676, 0.411795, 0.357551, 0.42)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_qtlwo")
+animation = &"stable"
+autoplay = "sway"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 5.5)
+shape = SubResource("RectangleShape2D_qtlwo")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
