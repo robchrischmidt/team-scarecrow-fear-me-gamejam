@@ -266,6 +266,10 @@ offset = Vector2(12.095, 0)
 sprite_frames = SubResource("SpriteFrames_wpnx7")
 animation = &"jump_prep"
 
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_b872d")
+animation = &""
+
 [connection signal="_air_idle" from="MovementController" to="Effects" method="_air_idle"]
 [connection signal="_air_idle" from="MovementController" to="AnimatedSprite2D" method="_on_movement_controller__air_idle"]
 [connection signal="_air_move" from="MovementController" to="Effects" method="_air_move"]
