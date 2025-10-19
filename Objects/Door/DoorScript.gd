@@ -6,7 +6,7 @@ var opened : bool = false
 @onready var doorId = self.get_instance_id()
 
 func _ready() -> void:
-	$DoorCollision.set_deferred("disabled", false)
+	pass
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if(body.get_instance_id() == $"../Player".get_instance_id()):
