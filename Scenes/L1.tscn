@@ -1,10 +1,12 @@
-[gd_scene load_steps=8 format=4 uid="uid://djxgahdmlk5yk"]
+[gd_scene load_steps=10 format=4 uid="uid://djxgahdmlk5yk"]
 
+[ext_resource type="Script" uid="uid://bmj4yr0ksda7h" path="res://Scenes/L1.gd" id="1_2osvy"]
 [ext_resource type="PackedScene" uid="uid://bl6wh4amp8ljg" path="res://Objects/Player/Player.tscn" id="1_f0cto"]
 [ext_resource type="Texture2D" uid="uid://cmy5biw3civcs" path="res://CollisionShapes.png" id="2_7kaqx"]
 [ext_resource type="PackedScene" uid="uid://1pj0kqeuwlmr" path="res://Objects/Pickups/knife.tscn" id="3_bhcnn"]
 [ext_resource type="PackedScene" uid="uid://djne5ew6vmlf7" path="res://Objects/Pickups/horns.tscn" id="3_r1lt2"]
 [ext_resource type="PackedScene" uid="uid://xg3qenbbdt7b" path="res://Objects/Pickups/eyes.tscn" id="5_rcrnv"]
+[ext_resource type="AudioStream" uid="uid://cblc6uk0e2lp3" path="res://Assets/Sound/Part 1 Loop.wav" id="6_rcrnv"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_r1lt2"]
 texture = ExtResource("2_7kaqx")
@@ -35,6 +37,7 @@ physics_layer_0/collision_layer = 1
 sources/1 = SubResource("TileSetAtlasSource_r1lt2")
 
 [node name="L1" type="Node2D"]
+script = ExtResource("1_2osvy")
 
 [node name="Player" parent="." instance=ExtResource("1_f0cto")]
 position = Vector2(414, 174)
@@ -50,3 +53,7 @@ position = Vector2(762, 278)
 
 [node name="Eyes" parent="." instance=ExtResource("5_rcrnv")]
 position = Vector2(-212, -5)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_rcrnv")
+autoplay = true
