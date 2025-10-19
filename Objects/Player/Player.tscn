@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bl6wh4amp8ljg"]
+[gd_scene load_steps=10 format=3 uid="uid://bl6wh4amp8ljg"]
 
 [ext_resource type="Script" uid="uid://c1kret0ix6iht" path="res://Objects/Player/Player.gd" id="1_we6tp"]
 [ext_resource type="Script" uid="uid://br1vs868dmesp" path="res://Objects/Player/Effects.gd" id="2_oansn"]
@@ -17,6 +17,7 @@ size = Vector2(128, 128)
 animations = []
 
 [node name="Player" type="CharacterBody2D"]
+z_index = 1
 script = ExtResource("1_we6tp")
 
 [node name="Camera2D" type="Camera2D" parent="."]
