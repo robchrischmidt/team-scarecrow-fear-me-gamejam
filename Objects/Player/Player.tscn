@@ -185,6 +185,7 @@ animations = [{
 
 [node name="Player" type="CharacterBody2D"]
 z_index = 1
+safe_margin = 0.1
 script = ExtResource("1_we6tp")
 
 [node name="Camera2D" type="Camera2D" parent="."]
