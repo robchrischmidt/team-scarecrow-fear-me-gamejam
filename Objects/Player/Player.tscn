@@ -1,17 +1,185 @@
-[gd_scene load_steps=9 format=3 uid="uid://bl6wh4amp8ljg"]
+[gd_scene load_steps=29 format=3 uid="uid://bl6wh4amp8ljg"]
 
 [ext_resource type="Script" uid="uid://c1kret0ix6iht" path="res://Objects/Player/Player.gd" id="1_we6tp"]
 [ext_resource type="Script" uid="uid://br1vs868dmesp" path="res://Objects/Player/Effects.gd" id="2_oansn"]
 [ext_resource type="Script" uid="uid://b0hot2esg3sgb" path="res://Objects/Player/MovementController.gd" id="3_cac6a"]
 [ext_resource type="Texture2D" uid="uid://how8nd5sgkun" path="res://Assets/Art/Dot.png" id="4_b0me6"]
 [ext_resource type="SpriteFrames" uid="uid://dc7obffplb4yl" path="res://Assets/Art/cat.tres" id="5_b872d"]
+[ext_resource type="Texture2D" uid="uid://5j2sk8ghi5uo" path="res://Assets/Art/alignment_ref.png" id="5_y01d7"]
 [ext_resource type="Script" uid="uid://23wjywdm36a6" path="res://Objects/Player/AnimatedSprite2d.gd" id="6_1qpp8"]
+[ext_resource type="SpriteFrames" uid="uid://cpy0l87gjbax6" path="res://Assets/Art/knife.tres" id="7_nd6ml"]
+[ext_resource type="Texture2D" uid="uid://dw78jqrasg0xx" path="res://Assets/Art/horns.png" id="9_7t0p5"]
+[ext_resource type="Texture2D" uid="uid://b3jvlhwphswi2" path="res://Assets/Art/eyes.png" id="10_ebgc0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_we6tp"]
-size = Vector2(128, 128)
+size = Vector2(80, 80)
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_cac6a"]
 size = Vector2(128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ebgc0"]
+atlas = ExtResource("9_7t0p5")
+region = Rect2(512, 0, 128, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ggq4"]
+atlas = ExtResource("9_7t0p5")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q10m3"]
+atlas = ExtResource("9_7t0p5")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ufaat"]
+atlas = ExtResource("9_7t0p5")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ngx6"]
+atlas = ExtResource("9_7t0p5")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b2dcs"]
+atlas = ExtResource("9_7t0p5")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0elat"]
+atlas = ExtResource("9_7t0p5")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rccl5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ebgc0")
+}],
+"loop": true,
+"name": &"climb",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ggq4")
+}],
+"loop": true,
+"name": &"fall",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q10m3")
+}],
+"loop": true,
+"name": &"fall_move",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ufaat")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ngx6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b2dcs")
+}],
+"loop": true,
+"name": &"jump_prep",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0elat")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rccl5"]
+atlas = ExtResource("10_ebgc0")
+region = Rect2(640, 0, 128, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5tcu3"]
+atlas = ExtResource("10_ebgc0")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gidut"]
+atlas = ExtResource("10_ebgc0")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jxew8"]
+atlas = ExtResource("10_ebgc0")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l5gqa"]
+atlas = ExtResource("10_ebgc0")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l4g2p"]
+atlas = ExtResource("10_ebgc0")
+region = Rect2(768, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1mjck"]
+atlas = ExtResource("10_ebgc0")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wpnx7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rccl5")
+}],
+"loop": true,
+"name": &"climb",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5tcu3")
+}],
+"loop": true,
+"name": &"fall",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gidut")
+}],
+"loop": true,
+"name": &"fall_move",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jxew8")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l5gqa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l4g2p")
+}],
+"loop": true,
+"name": &"jump_prep",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1mjck")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_we6tp")
@@ -67,12 +235,37 @@ points = PackedVector2Array(0, 0, 0, 0)
 texture = ExtResource("4_b0me6")
 texture_mode = 1
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("5_y01d7")
+offset = Vector2(0, -18.705)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("c_body", "knife", "horns", "eyes")]
 sprite_frames = ExtResource("5_b872d")
-animation = &"fall"
-autoplay = "climb"
-offset = Vector2(0, 5)
+animation = &"jump_prep"
+frame = 1
+offset = Vector2(0, -18.705)
 script = ExtResource("6_1qpp8")
+c_body = NodePath("..")
+knife = NodePath("../KnifeSprite2D")
+horns = NodePath("../HornsSprite2D")
+eyes = NodePath("../EyesSprite2D")
+
+[node name="KnifeSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("7_nd6ml")
+animation = &"climb"
+offset = Vector2(-26, -33.69)
+
+[node name="HornsSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_rccl5")
+animation = &"climb"
+offset = Vector2(12.095, -18.705)
+
+[node name="EyesSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_wpnx7")
+animation = &"walk"
+frame_progress = 0.827817
+offset = Vector2(0, -18.705)
 
 [connection signal="_air_idle" from="MovementController" to="Effects" method="_air_idle"]
 [connection signal="_air_idle" from="MovementController" to="AnimatedSprite2D" method="_on_movement_controller__air_idle"]
