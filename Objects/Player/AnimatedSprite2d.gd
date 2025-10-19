@@ -61,3 +61,72 @@ func _on_movement_controller__fall_idle() -> void:
 func _on_movement_controller__fall_move() -> void:
 	play_anims("fall_move")
 	pass # Replace with function body.
+
+
+#func handle_flip():
+#	if %MovementController.x_facing == Constants.RIGHT:
+#		flip_h = false
+#	if %MovementController.x_facing == Constants.LEFT:
+#		flip_h = true
+
+#func _on_movement_controller__move() -> void:
+#	handle_flip()
+#	speed_scale = 1
+#	play("walk")
+
+#func _on_movement_controller__idle() -> void:
+#	handle_flip()
+#	speed_scale = 1
+#	play("idle")
+
+#func _on_movement_controller__air_idle() -> void:
+#	handle_flip()
+#	speed_scale = 1
+#	play("fall")
+
+#func _on_movement_controller__air_move() -> void:
+#	handle_flip()
+#	speed_scale = 1
+#	play("fall_move")
+
+#func _on_movement_controller__jump_idle() -> void:
+#	handle_flip()
+#	speed_scale = 1
+#	play("fall")
+
+#func _on_movement_controller__jump_move() -> void:
+#	handle_flip()
+#	speed_scale = 1
+#	play("fall_move")
+
+#func _on_movement_controller__fall_idle() -> void:
+#	handle_flip()
+#	speed_scale = 1
+#	play("fall")
+
+#func _on_movement_controller__fall_move() -> void:
+#	handle_flip()
+#	speed_scale = 1
+#	play("fall_move")
+
+#func _on_movement_controller__crouch_down() -> void:
+#	handle_flip()
+#	speed_scale = 1
+#	play("jump_prep")
+#	frame=0
+
+#func _on_movement_controller__crouch_up() -> void:
+#	handle_flip()
+#	speed_scale = 1
+#	play("jump_prep")
+#	frame=1
+
+
+#func _on_movement_controller__climb_idle() -> void:
+#	speed_scale = 0
+#	play("climbing")
+
+
+#func _on_movement_controller__climb_move() -> void:
+#	speed_scale = 1
+#	play("climbing")

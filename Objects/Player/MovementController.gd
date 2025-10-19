@@ -14,6 +14,12 @@ signal _land
 signal _dash_begin
 signal _dash_end
 
+signal _crouch_down
+signal _crouch_up
+
+signal _climb_move
+signal _climb_idle
+
 @export var c_body : CharacterBody2D
 
 @export_group("Basics")
@@ -41,7 +47,10 @@ signal _dash_end
 @export var jump_max_force : float
 @export var jump_windup_msec : float
 @export var jump_hud : Node2D
+@export var jump_wall_force : float
+
 var jump_start_tick_msec : float
+var jump_wall_boost : Vector2
 
 var state_machine : StateMachine
 
@@ -50,16 +59,12 @@ var stamina : int
 
 var jumping : bool
 var falling : bool
+
 var jump_request_timestamp_msec : int
 var jump_timestamp_msec : int
 var on_ground_timestamp_msec : int
 
-enum {
-	LEFT,
-	RIGHT
-}
-
-var x_facing = RIGHT
+var x_facing : int
 
 func _ready() -> void:
 	state_machine = StateMachine.create(self)
@@ -83,6 +88,14 @@ func _ready() -> void:
 	
 	state_machine.transfer("Idle")
 
+func get_facing():
+	if x_facing == Constants.RIGHT:
+		return "Right"
+	elif x_facing == Constants.LEFT:
+		return "Left"
+	else:
+		return "IDK"
+
 func _physics_process(delta: float) -> void:
 	move_dir = Vector2(Input.get_axis("MoveLeft", "MoveRight"), Input.get_axis("MoveUp", "MoveDown"))
 	if c_body.is_on_floor():
@@ -90,24 +103,20 @@ func _physics_process(delta: float) -> void:
 	
 	c_body.move_and_slide()
 	
-	print("wall, floor: ", c_body.is_on_wall(), ", ", c_body.is_on_floor())
-	print("Velocity: ", c_body.velocity)
-
 func apply_movement(is_climbing: bool = false):
 	if is_climbing:
-		if x_facing == RIGHT:
+		if x_facing == Constants.RIGHT:
 			c_body.velocity.y = -move_dir.x * climb_speed
-			c_body.velocity.x = 1000
-		if x_facing == LEFT:
-			print("facing left")
+		if x_facing == Constants.LEFT:
 			c_body.velocity.y = move_dir.x * climb_speed
-			c_body.velocity.x = -1000
 	else:
-		c_body.velocity.x = move_dir.x * move_speed
+		if move_dir.x != 0:
+			c_body.velocity.x = move_dir.x * move_speed
 		if move_dir.x > 0:
-			x_facing = RIGHT
+			x_facing = Constants.RIGHT
 		if move_dir.x < 0:
-			x_facing = LEFT
+			x_facing = Constants.LEFT
+
 
 func apply_jump(jump_force: Vector2):
 	print("Jumping: ", jump_force)
@@ -117,7 +126,9 @@ func apply_gravity(delta : float, gravity_scale := 1.0):
 	c_body.velocity.y += ((gravity * gravity_scale) * delta * Engine.physics_ticks_per_second)
 	
 func small_jump_enter():
-	apply_jump(Vector2(0, -small_jump_force))
+	var jump_vector : Vector2 = Vector2(0, -small_jump_force) + jump_wall_boost
+	jump_wall_boost = Vector2.ZERO
+	apply_jump(jump_vector)
 	state_machine.transfer("AirMove")
 
 func jump_windup_enter():
@@ -130,6 +141,18 @@ func jump_windup_process(delta : float):
 	
 	var ratio_distance = min((Time.get_ticks_msec() - jump_start_tick_msec)/jump_windup_msec, 1) * 300
 	var mouse_dir = c_body.get_local_mouse_position().normalized()
+	
+	if mouse_dir.y > -0.3:
+		_crouch_down.emit()
+	else:
+		_crouch_up.emit()
+
+	if mouse_dir.x < 0:
+		x_facing = Constants.LEFT
+	else:
+		x_facing = Constants.RIGHT
+		
+	
 	
 	line.points[1] = ratio_distance * mouse_dir
 		
@@ -147,6 +170,8 @@ func jump_windup_exit():
 	jump_start_tick_msec = INF
 
 func climb_move_enter():
+	jumping = false
+	_climb_move.emit()
 	pass
 
 
@@ -154,6 +179,26 @@ func climb_move_phys_process(delta : float):
 	if move_dir.x == 0:
 		state_machine.transfer("ClimbingIdle")
 		return
+	
+	if can_jump("SmallJump", true):
+		if x_facing == Constants.RIGHT: 
+			x_facing = Constants.LEFT
+			jump_wall_boost = Vector2.LEFT * jump_wall_force
+		if x_facing == Constants.LEFT:
+			x_facing = Constants.RIGHT
+			jump_wall_boost = Vector2.RIGHT * jump_wall_force
+		state_machine.transfer("SmallJump")
+		return	
+	
+	if can_jump("LongJump", true):
+		if x_facing == Constants.RIGHT:
+			x_facing = Constants.LEFT
+		if x_facing == Constants.LEFT:
+			x_facing = Constants.RIGHT
+		
+		state_machine.transfer("JumpWindup")
+		return
+
 
 	apply_movement(true)
 		
@@ -169,11 +214,34 @@ func climb_move_exit():
 	c_body.velocity.x = 0
 	
 func climb_idle_enter():
+	jumping = false 
+	_climb_idle.emit()
 	pass
 
 func climb_idle_phys_process(delta: float):
 	if move_dir.x != 0:
 		state_machine.transfer("ClimbingMove")
+	
+	if can_jump("SmallJump", true):
+		if x_facing == Constants.RIGHT: 
+			x_facing = Constants.LEFT
+			jump_wall_boost = Vector2.LEFT * jump_wall_force
+		if x_facing == Constants.LEFT:
+			x_facing = Constants.RIGHT
+			jump_wall_boost = Vector2.RIGHT * jump_wall_force
+		
+		state_machine.transfer("SmallJump")
+		return
+		
+	if can_jump("LongJump", true):
+		if x_facing == Constants.RIGHT:
+			x_facing = Constants.LEFT
+		if x_facing == Constants.LEFT:
+			x_facing = Constants.RIGHT
+		
+		state_machine.transfer("JumpWindup")
+		return
+
 		
 	c_body.velocity = c_body.velocity / climb_decelleration
 	
@@ -209,6 +277,7 @@ func idle_phys_process(delta : float):
 		return
 
 func move_enter():
+	apply_movement()
 	_move.emit()
 	
 func move_phys_process(delta : float):
@@ -239,6 +308,7 @@ func move_exit():
 	pass
 
 func jump_enter():
+	_jump_move.emit()
 #	Jump will already be applied by now. This is the state that stays until the cat starts falling
 	#apply_movement()
 	pass
@@ -251,6 +321,10 @@ func jumping_phys_process(delta: float):
 		state_machine.transfer("AirMove")
 	if c_body.is_on_floor():
 		state_machine.transfer("Move")
+		return
+	if c_body.is_on_wall():
+		state_machine.transfer("ClimbingIdle")
+		return
 	
 	apply_gravity(delta)
 
@@ -270,8 +344,11 @@ func air_idle_phys_process(delta : float):
 		state_machine.transfer("SmallJump")
 	elif c_body.is_on_floor():
 		state_machine.transfer("Idle")
+	elif c_body.is_on_wall():
+		state_machine.transfer("ClimbingIdle")
 
 func air_move_enter():
+	apply_movement()
 	_air_move.emit()
 
 func air_move_phys_process(delta : float):
@@ -284,10 +361,11 @@ func air_move_phys_process(delta : float):
 	elif c_body.is_on_floor():
 		_land.emit()
 		state_machine.transfer("Move")
+	elif c_body.is_on_wall():
+		state_machine.transfer("ClimbingIdle")
 	else:
 		apply_movement()
 		apply_gravity(delta)
-		
 		
 func fall_idle_enter():
 	_fall_idle.emit()
@@ -320,13 +398,13 @@ func fall_move_phys_process(delta : float):
 		state_machine.transfer("Dash")
 	elif move_dir.x == 0:
 		state_machine.transfer("FallIdle")
-	elif can_jump():
+	elif can_jump("SmallJump"):
 		state_machine.transfer("SmallJump")
 	elif c_body.is_on_floor():
 		_land.emit()
 		state_machine.transfer("Move")
 
-func can_jump(type: String = "SmallJump"):
+func can_jump(type: String = "SmallJump", is_climbing: bool = false):
 	if Input.is_action_just_pressed(type):
 		jump_request_timestamp_msec = Time.get_ticks_msec()
 	
@@ -334,11 +412,13 @@ func can_jump(type: String = "SmallJump"):
 		on_ground_timestamp_msec = Time.get_ticks_msec()
 		jumping = false
 		falling = false
-		
+	
+	var is_on_wall = c_body.is_on_wall()
+	
 	var time_since_jump_request = Time.get_ticks_msec() - jump_request_timestamp_msec
 	var time_since_on_ground = Time.get_ticks_msec() - on_ground_timestamp_msec
 	
-	return !jumping && time_since_jump_request < jump_queue_length_msec && time_since_on_ground < coyote_time_length_msec
+	return !jumping && time_since_jump_request < jump_queue_length_msec && ((time_since_on_ground < coyote_time_length_msec) || (is_on_wall && is_climbing))
 
 func dash_enter():
 	if move_dir == Vector2.ZERO:

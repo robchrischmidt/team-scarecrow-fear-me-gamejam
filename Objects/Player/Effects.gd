@@ -34,57 +34,60 @@ extends Node
 var current_anim : Anim
 
 func _idle() -> void:
-	if debug: print("Idle")
+	#if debug: print("Idle")
 	if enable_animation && idle_anim: play_animation(idle_anim)
 	if enable_particals && idle_partical: idle_partical.emitting = true
 
 func _move() -> void:
-	if debug: print("Move")
+	#if debug: print("Move")
 	if enable_sound && move_sound: play_sound(move_sound)
 	if enable_animation && move_anim: play_animation(move_anim)
 	if enable_particals && move_partical: move_partical.emitting = true
 
 func _jump_idle() -> void:
-	if debug: print("Jump Idle")
+	#if debug: print("Jump Idle")
 	if enable_sound && jump_sound: play_sound(jump_sound)
 	if enable_animation && jump_anim: play_animation(jump_anim)
 	if enable_particals && jump_partical: jump_partical.emitting = true
 
 func _jump_move() -> void:
-	if debug: print("Jump Move")
+	#if debug: print("Jump Move")
 	if enable_sound && jump_sound: play_sound(jump_sound)
 	if enable_animation && jump_anim: play_animation(jump_anim)
 	if enable_particals && jump_partical: jump_partical.emitting = true
 
 func _air_idle() -> void:
-	if debug: print("Air Idle")
+	#if debug: print("Air Idle")
+	pass
 
 func _air_move() -> void:
-	if debug: print("Air Move")
-
+	#if debug: print("Air Move")
+	pass
+	
 func _fall_idle() -> void:
-	if debug: print("Fall Idle")
+	#if debug: print("Fall Idle")
 	if enable_animation && fall_anim: play_animation(fall_anim)
 	if enable_particals && fall_partical: fall_partical.emitting = true
 
 func _fall_move() -> void:
-	if debug: print("Fall Move")
+	#if debug: print("Fall Move")
 	if enable_animation && fall_anim: play_animation(fall_anim)
 
 func _land() -> void:
-	if debug: print("Land")
+	#if debug: print("Land")
 	if enable_sound && land_sound: play_sound(land_sound)
 	if enable_animation && land_anim: play_animation(land_anim)
 	if enable_particals && land_partical: land_partical.emitting = true
 
 func _dash_begin() -> void:
-	if debug: print("Dash Begin")
+	#if debug: print("Dash Begin")
 	if enable_sound && dash_sound: play_sound(dash_sound)
 	if enable_animation && dash_anim: play_animation(dash_anim)
 	if enable_particals && dash_partical: dash_partical.emitting = true
 
 func _dash_end() -> void:
-	if debug: print("Dash End")
+	#if debug: print("Dash End")
+	pass
 	
 func play_sound(audio_stream, offset := 0.0):
 	speaker.stream = audio_stream
@@ -93,7 +96,7 @@ func play_sound(audio_stream, offset := 0.0):
 var tween_x : MethodTweener
 var tween_y : MethodTweener
 func play_animation(anim : Anim):
-	print("Play animation")
+	#print("Play animation")
 	
 	if anim.x_scale:
 		if anim.loop:
