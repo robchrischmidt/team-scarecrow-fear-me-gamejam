@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://csqdn2w8lw5p1"]
+[gd_scene load_steps=2 format=3 uid="uid://csqdn2w8lw5p1"]
 
 [ext_resource type="Script" uid="uid://dfnkxqgsdnb26" path="res://Scenes/Menus/main_menu.gd" id="1_7y4ns"]
-[ext_resource type="AudioStream" uid="uid://cdo8sf4lfxri2" path="res://Assets/Sound/Inspector Hound Main Theme FINAL.wav" id="2_pha2q"]
 
 [node name="Main Menu" type="Control"]
 layout_mode = 3
@@ -45,6 +44,11 @@ layout_mode = 2
 focus_neighbor_top = NodePath("../Quit")
 text = "Start"
 
+[node name="Controls" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../Quit")
+text = "Controls"
+
 [node name="Credits" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "Credits"
@@ -59,11 +63,7 @@ position = Vector2(21.5, -195.5)
 scale = Vector2(5.76666, 6.52734)
 centered = false
 
-[node name="MainThemePlayer" type="AudioStreamPlayer" parent="."]
-unique_name_in_owner = true
-stream = ExtResource("2_pha2q")
-autoplay = true
-
 [connection signal="pressed" from="VBoxContainer/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="VBoxContainer/Controls" to="." method="_on_controls_pressed"]
 [connection signal="pressed" from="VBoxContainer/Credits" to="." method="_on_credits_pressed"]
 [connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_quit_pressed"]
