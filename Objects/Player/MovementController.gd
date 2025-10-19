@@ -67,6 +67,7 @@ var on_ground_timestamp_msec : int
 var x_facing : int
 
 func _ready() -> void:
+	print(c_body.position)
 	state_machine = StateMachine.create(self)
 	state_machine.add_state("Idle", idle_enter, null, idle_phys_process)
 	state_machine.add_state("Move", move_enter, null, move_phys_process, move_exit)
@@ -116,6 +117,9 @@ func apply_movement(is_climbing: bool = false):
 			x_facing = Constants.RIGHT
 		if move_dir.x < 0:
 			x_facing = Constants.LEFT
+			
+		
+	print(get_facing())
 
 
 func apply_jump(jump_force: Vector2):
@@ -254,6 +258,7 @@ func climb_idle_exit():
 
 
 func idle_enter():
+	print(c_body.position)
 	_idle.emit()
 
 func idle_phys_process(delta : float):
@@ -403,6 +408,8 @@ func fall_move_phys_process(delta : float):
 	elif c_body.is_on_floor():
 		_land.emit()
 		state_machine.transfer("Move")
+	elif c_body.is_on_wall():
+		state_machine.transfer("ClimbingIdle")
 
 func can_jump(type: String = "SmallJump", is_climbing: bool = false):
 	if Input.is_action_just_pressed(type):
