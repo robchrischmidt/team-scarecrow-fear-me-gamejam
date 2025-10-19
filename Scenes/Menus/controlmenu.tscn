@@ -1,0 +1,77 @@
+[gd_scene load_steps=8 format=3 uid="uid://drd8tdugmc7ec"]
+
+[ext_resource type="Script" uid="uid://d2pmgvxm7sget" path="res://Scenes/Menus/controlmenu.gd" id="1_lhj7h"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_scegt"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2odew"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_l31ll"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_r4mjn"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3sda0"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xfu0v"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lhj7h")
+
+[node name="Background" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Background"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_scegt")
+
+[node name="Panel2" type="Panel" parent="Background"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_2odew")
+
+[node name="Panel3" type="Panel" parent="Background"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_l31ll")
+
+[node name="Panel4" type="Panel" parent="Background"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_r4mjn")
+
+[node name="Panel5" type="Panel" parent="Background"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_3sda0")
+
+[node name="Panel6" type="Panel" parent="Background"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_xfu0v")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Controls" type="Label" parent="VBoxContainer"]
+z_index = 1
+layout_mode = 2
+size_flags_vertical = 3
+text = "These are your controls
+W
+A
+S
+D
+and many more..."
+horizontal_alignment = 1
+vertical_alignment = 1

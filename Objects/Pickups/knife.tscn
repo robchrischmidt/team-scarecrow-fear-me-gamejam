@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://1pj0kqeuwlmr"]
+
+[ext_resource type="Script" uid="uid://bb6hjmcbvl4k5" path="res://Objects/Pickups/Item.gd" id="1_bvb5p"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pimxt"]
+radius = 32.0
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_cp014"]
+size = Vector2(60, 60)
+
+[node name="Knife" type="Area2D"]
+script = ExtResource("1_bvb5p")
+item_name = "knife"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_pimxt")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("PlaceholderTexture2D_cp014")

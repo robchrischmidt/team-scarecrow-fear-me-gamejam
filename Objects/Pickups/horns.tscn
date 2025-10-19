@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://djne5ew6vmlf7"]
+
+[ext_resource type="Script" uid="uid://bb6hjmcbvl4k5" path="res://Objects/Pickups/Item.gd" id="1_3ecan"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cwqtq"]
+radius = 32.0
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_cwqtq"]
+size = Vector2(60, 60)
+
+[node name="Horns" type="Area2D"]
+monitoring = false
+script = ExtResource("1_3ecan")
+item_name = "horns"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_cwqtq")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("PlaceholderTexture2D_cwqtq")
