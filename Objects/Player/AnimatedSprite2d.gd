@@ -7,6 +7,10 @@ extends AnimatedSprite2D
 const knifeOffsetX = -26
 const hornOffsetX = 12
 
+var cur_anim_name : String
+var cur_anim_speed : float
+var cur_anim_frame_num : int
+
 func handle_flip():
 	if %MovementController.x_facing == Constants.RIGHT:
 		flip_h = false
@@ -23,8 +27,17 @@ func handle_flip():
 		horns.offset.x = -hornOffsetX
 		eyes.flip_h = true
 
-func play_anims(name, speed, frame_num: int = -1) ->void:
+func play_anims(name, speed : float, frame_num: int = -1) ->void:
+	cur_anim_name = name
+	cur_anim_speed = speed
+	cur_anim_frame_num = frame_num
+	
 	handle_flip()
+	
+	knife.visible = c_body.has_knife
+	horns.visible = c_body.has_horns
+	eyes.visible = c_body.has_eyes
+	
 	if frame_num != -1:
 		frame = frame_num
 		knife.frame = frame_num
@@ -77,3 +90,7 @@ func _on_movement_controller__climb_idle() -> void:
 
 func _on_movement_controller__climb_move() -> void:
 	play_anims("climb", 1)
+
+
+func _on_player__pickup() -> void:
+	play_anims(cur_anim_name, cur_anim_speed, cur_anim_frame_num)

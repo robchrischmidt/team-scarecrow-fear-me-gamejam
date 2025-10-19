@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://bl6wh4amp8ljg"]
+[gd_scene load_steps=29 format=3 uid="uid://bl6wh4amp8ljg"]
 
 [ext_resource type="Script" uid="uid://c1kret0ix6iht" path="res://Objects/Player/Player.gd" id="1_we6tp"]
 [ext_resource type="Script" uid="uid://br1vs868dmesp" path="res://Objects/Player/Effects.gd" id="2_oansn"]
@@ -11,6 +11,9 @@
 [ext_resource type="Texture2D" uid="uid://b3jvlhwphswi2" path="res://Assets/Art/eyes.png" id="10_ebgc0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_we6tp"]
+size = Vector2(128, 128)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7t0p5"]
 size = Vector2(128, 128)
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_cac6a"]
@@ -188,6 +191,12 @@ script = ExtResource("1_we6tp")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_we6tp")
 
+[node name="PickupArea" type="Area2D" parent="."]
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupArea"]
+shape = SubResource("RectangleShape2D_7t0p5")
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false
 texture = SubResource("PlaceholderTexture2D_cac6a")
@@ -243,7 +252,7 @@ points = PackedVector2Array(0, 0, 0, 0)
 texture = ExtResource("4_b0me6")
 texture_mode = 1
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("c_body", "knife", "horns", "eyes")]
+[node name="CatAnimation" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("c_body", "knife", "horns", "eyes")]
 sprite_frames = ExtResource("5_b872d")
 animation = &"walk"
 script = ExtResource("6_1qpp8")
@@ -266,30 +275,28 @@ offset = Vector2(12.095, 0)
 sprite_frames = SubResource("SpriteFrames_wpnx7")
 animation = &"jump_prep"
 
-[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_b872d")
-animation = &""
-
+[connection signal="_pickup" from="." to="CatAnimation" method="_on_player__pickup"]
+[connection signal="area_entered" from="PickupArea" to="." method="_on_pickup_area_area_entered"]
 [connection signal="_air_idle" from="MovementController" to="Effects" method="_air_idle"]
-[connection signal="_air_idle" from="MovementController" to="AnimatedSprite2D" method="_on_movement_controller__air_idle"]
+[connection signal="_air_idle" from="MovementController" to="CatAnimation" method="_on_movement_controller__air_idle"]
 [connection signal="_air_move" from="MovementController" to="Effects" method="_air_move"]
-[connection signal="_air_move" from="MovementController" to="AnimatedSprite2D" method="_on_movement_controller__air_move"]
-[connection signal="_climb_idle" from="MovementController" to="AnimatedSprite2D" method="_on_movement_controller__climb_idle"]
-[connection signal="_climb_move" from="MovementController" to="AnimatedSprite2D" method="_on_movement_controller__climb_move"]
-[connection signal="_crouch_down" from="MovementController" to="AnimatedSprite2D" method="_on_movement_controller__crouch_down"]
-[connection signal="_crouch_up" from="MovementController" to="AnimatedSprite2D" method="_on_movement_controller__crouch_up"]
+[connection signal="_air_move" from="MovementController" to="CatAnimation" method="_on_movement_controller__air_move"]
+[connection signal="_climb_idle" from="MovementController" to="CatAnimation" method="_on_movement_controller__climb_idle"]
+[connection signal="_climb_move" from="MovementController" to="CatAnimation" method="_on_movement_controller__climb_move"]
+[connection signal="_crouch_down" from="MovementController" to="CatAnimation" method="_on_movement_controller__crouch_down"]
+[connection signal="_crouch_up" from="MovementController" to="CatAnimation" method="_on_movement_controller__crouch_up"]
 [connection signal="_dash_begin" from="MovementController" to="Effects" method="_dash_begin"]
 [connection signal="_dash_end" from="MovementController" to="Effects" method="_dash_end"]
 [connection signal="_fall_idle" from="MovementController" to="Effects" method="_fall_idle"]
-[connection signal="_fall_idle" from="MovementController" to="AnimatedSprite2D" method="_on_movement_controller__fall_idle"]
+[connection signal="_fall_idle" from="MovementController" to="CatAnimation" method="_on_movement_controller__fall_idle"]
 [connection signal="_fall_move" from="MovementController" to="Effects" method="_fall_move"]
-[connection signal="_fall_move" from="MovementController" to="AnimatedSprite2D" method="_on_movement_controller__fall_move"]
+[connection signal="_fall_move" from="MovementController" to="CatAnimation" method="_on_movement_controller__fall_move"]
 [connection signal="_idle" from="MovementController" to="Effects" method="_idle"]
-[connection signal="_idle" from="MovementController" to="AnimatedSprite2D" method="_on_movement_controller__idle"]
+[connection signal="_idle" from="MovementController" to="CatAnimation" method="_on_movement_controller__idle"]
 [connection signal="_jump_idle" from="MovementController" to="Effects" method="_jump_idle"]
-[connection signal="_jump_idle" from="MovementController" to="AnimatedSprite2D" method="_on_movement_controller__jump_idle"]
+[connection signal="_jump_idle" from="MovementController" to="CatAnimation" method="_on_movement_controller__jump_idle"]
 [connection signal="_jump_move" from="MovementController" to="Effects" method="_jump_move"]
-[connection signal="_jump_move" from="MovementController" to="AnimatedSprite2D" method="_on_movement_controller__jump_move"]
+[connection signal="_jump_move" from="MovementController" to="CatAnimation" method="_on_movement_controller__jump_move"]
 [connection signal="_land" from="MovementController" to="Effects" method="_land"]
 [connection signal="_move" from="MovementController" to="Effects" method="_move"]
-[connection signal="_move" from="MovementController" to="AnimatedSprite2D" method="_on_movement_controller__move"]
+[connection signal="_move" from="MovementController" to="CatAnimation" method="_on_movement_controller__move"]

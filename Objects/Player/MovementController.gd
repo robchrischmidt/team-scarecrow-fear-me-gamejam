@@ -67,7 +67,6 @@ var on_ground_timestamp_msec : int
 var x_facing : int
 
 func _ready() -> void:
-	print(c_body.position)
 	state_machine = StateMachine.create(self)
 	state_machine.add_state("Idle", idle_enter, null, idle_phys_process)
 	state_machine.add_state("Move", move_enter, null, move_phys_process, move_exit)
@@ -119,7 +118,6 @@ func apply_movement(is_climbing: bool = false):
 			x_facing = Constants.LEFT
 			
 		
-	print(get_facing())
 
 
 func apply_jump(jump_force: Vector2):
@@ -258,7 +256,6 @@ func climb_idle_exit():
 
 
 func idle_enter():
-	print(c_body.position)
 	_idle.emit()
 
 func idle_phys_process(delta : float):
