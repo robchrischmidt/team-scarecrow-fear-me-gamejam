@@ -4,7 +4,7 @@
 [ext_resource type="SpriteFrames" uid="uid://dljhgb4mss5ih" path="res://Objects/Door/DoorAnim.tres" id="1_ni8px"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7ihvk"]
-size = Vector2(257, 511)
+size = Vector2(257, 512)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_65nwm"]
 size = Vector2(24, 512)
@@ -14,13 +14,17 @@ script = ExtResource("1_g35bp")
 
 [node name="Area2D" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(-0.5, -0.5)
+[node name="doorArea" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_7ihvk")
+
+[node name="closedDoorArea" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(228.5, 0)
 shape = SubResource("RectangleShape2D_7ihvk")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("1_ni8px")
-animation = &"closed"
+animation = &"opening"
 autoplay = "closed"
 
 [node name="DoorCollision" type="CollisionShape2D" parent="."]

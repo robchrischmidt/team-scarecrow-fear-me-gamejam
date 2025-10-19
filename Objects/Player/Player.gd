@@ -7,6 +7,8 @@ var has_horns = false
 var has_eyes = false
 var has_knife = false
 
+#@onready var pID = self.get_instance_id()
+
 signal _pickup
 signal meowed
 
