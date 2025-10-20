@@ -33,7 +33,7 @@ func _ready() -> void:
 	await tween.finished
 	
 	var skip_tween : Tween = create_tween()
-	skip_tween.tween_property(%TextSkip, "modulate:a", 1.0, 5)
+	skip_tween.tween_property(%TextSkip, "modulate:a", 1.0, 3.0)
 	skip_tween.play() # Asynchronous, no wait
 	
 	print("Text 3")
@@ -59,9 +59,13 @@ func _ready() -> void:
 	tween.play()
 	await tween.finished
 	
+	print("Text 5")
+	
 	tween = create_tween()
 	tween.tween_property(%Text5, "modulate:a", 1.0, 2.0)
 	tween.play()
 	await tween.finished
+	
+	print("Text 5 complete")
 	
 	wait_on_continue = true

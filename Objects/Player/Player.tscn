@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://bl6wh4amp8ljg"]
+[gd_scene load_steps=32 format=3 uid="uid://bl6wh4amp8ljg"]
 
 [ext_resource type="Script" uid="uid://c1kret0ix6iht" path="res://Objects/Player/Player.gd" id="1_we6tp"]
 [ext_resource type="Script" uid="uid://br1vs868dmesp" path="res://Objects/Player/Effects.gd" id="2_oansn"]
@@ -21,9 +21,6 @@ resource_local_to_scene = true
 size = Vector2(69, 128)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7t0p5"]
-size = Vector2(128, 128)
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_cac6a"]
 size = Vector2(128, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ebgc0"]
@@ -228,13 +225,8 @@ shape = SubResource("RectangleShape2D_ebgc0")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PickupArea"]
 shape = SubResource("RectangleShape2D_7t0p5")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-visible = false
-texture = SubResource("PlaceholderTexture2D_cac6a")
-
-[node name="Effects" type="Node" parent="." node_paths=PackedStringArray("sprite", "speaker")]
+[node name="Effects" type="Node" parent="." node_paths=PackedStringArray("speaker")]
 script = ExtResource("2_oansn")
-sprite = NodePath("../Sprite2D")
 speaker = NodePath("../MeowPlayer")
 debug = true
 enable_sound = true
