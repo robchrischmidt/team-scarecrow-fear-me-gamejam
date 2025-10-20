@@ -11,28 +11,28 @@ var cur_anim_name : String
 var cur_anim_speed : float
 var cur_anim_frame_num : int
 
-func handle_flip():
-	if %MovementController.x_facing == Constants.RIGHT:
-		flip_h = false
-		knife.flip_h = false
-		knife.offset.x = knifeOffsetX
-		horns.flip_h = false
-		horns.offset.x = hornOffsetX
-		eyes.flip_h = false
-	if %MovementController.x_facing == Constants.LEFT:
-		flip_h = true
-		knife.flip_h = true
+func handle_flip(invert_flip : bool = false):
+	var flip : bool = %MovementController.x_facing == Constants.LEFT
+	if invert_flip:
+		flip = not flip
+	flip_h = flip
+	knife.flip_h = flip
+	horns.flip_h = flip
+	eyes.flip_h = flip
+	
+	if flip:
 		knife.offset.x = -knifeOffsetX
-		horns.flip_h = true
 		horns.offset.x = -hornOffsetX
-		eyes.flip_h = true
+	else:
+		knife.offset.x = knifeOffsetX
+		horns.offset.x = hornOffsetX
 
-func play_anims(name, speed : float, frame_num: int = -1) ->void:
+func play_anims(name, speed : float, frame_num: int = -1, invert_flip : bool = false) ->void:
 	cur_anim_name = name
 	cur_anim_speed = speed
 	cur_anim_frame_num = frame_num
 	
-	handle_flip()
+	handle_flip(invert_flip)
 	
 	knife.visible = c_body.has_knife
 	horns.visible = c_body.has_horns
@@ -83,10 +83,11 @@ func _on_movement_controller__crouch_down() -> void:
 func _on_movement_controller__crouch_up() -> void:
 	play_anims("jump_prep", 1, 1)
 
+func _on_movement_controller__crouch_wall() -> void:
+	play_anims("jump_prep", 1, 2, true)
 
 func _on_movement_controller__climb_idle() -> void:
 	play_anims("climb", 0)
-
 
 func _on_movement_controller__climb_move() -> void:
 	play_anims("climb", 1)

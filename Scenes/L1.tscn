@@ -168,3 +168,10 @@ offset_top = -368.0
 offset_right = -64.0
 offset_bottom = -312.0
 text = "Jump to the chandelier!"
+
+[node name="Label3" type="Label" parent="."]
+offset_left = 1072.0
+offset_top = -472.0
+offset_right = 1197.0
+offset_bottom = -449.0
+text = "Go into the vent"

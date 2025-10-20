@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://bl6wh4amp8ljg"]
+[gd_scene load_steps=33 format=3 uid="uid://bl6wh4amp8ljg"]
 
 [ext_resource type="Script" uid="uid://c1kret0ix6iht" path="res://Objects/Player/Player.gd" id="1_we6tp"]
 [ext_resource type="Script" uid="uid://br1vs868dmesp" path="res://Objects/Player/Effects.gd" id="2_oansn"]
@@ -10,6 +10,8 @@
 [ext_resource type="SpriteFrames" uid="uid://cpy0l87gjbax6" path="res://Assets/Art/knife.tres" id="7_nd6ml"]
 [ext_resource type="Texture2D" uid="uid://dw78jqrasg0xx" path="res://Assets/Art/horns.png" id="9_7t0p5"]
 [ext_resource type="Texture2D" uid="uid://b3jvlhwphswi2" path="res://Assets/Art/eyes.png" id="10_ebgc0"]
+[ext_resource type="Texture2D" uid="uid://ccakfnwcrmvme" path="res://Assets/Art/jump_prep_wall_horns.png" id="10_q10m3"]
+[ext_resource type="Texture2D" uid="uid://s2gbc0hbfciy" path="res://Assets/Art/jump_prep_wall_eye.png" id="12_ufaat"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_we6tp"]
 size = Vector2(126, 94)
@@ -92,6 +94,9 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_b2dcs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_q10m3")
 }],
 "loop": true,
 "name": &"jump_prep",
@@ -174,6 +179,9 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_l4g2p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_ufaat")
 }],
 "loop": true,
 "name": &"jump_prep",
@@ -279,7 +287,7 @@ texture_mode = 1
 
 [node name="CatAnimation" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("c_body", "knife", "horns", "eyes")]
 sprite_frames = ExtResource("5_b872d")
-animation = &"walk"
+animation = &"jump_prep"
 script = ExtResource("6_1qpp8")
 c_body = NodePath("..")
 knife = NodePath("../KnifeSprite2D")
@@ -288,12 +296,12 @@ eyes = NodePath("../EyesSprite2D")
 
 [node name="KnifeSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("7_nd6ml")
-animation = &"climb"
+animation = &"jump_prep"
 offset = Vector2(-26, -14.985)
 
 [node name="HornsSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_rccl5")
-animation = &"climb"
+animation = &"jump_prep"
 offset = Vector2(12.095, 0)
 
 [node name="EyesSprite2D" type="AnimatedSprite2D" parent="."]
@@ -310,6 +318,7 @@ animation = &"jump_prep"
 [connection signal="_climb_move" from="MovementController" to="CatAnimation" method="_on_movement_controller__climb_move"]
 [connection signal="_crouch_down" from="MovementController" to="CatAnimation" method="_on_movement_controller__crouch_down"]
 [connection signal="_crouch_up" from="MovementController" to="CatAnimation" method="_on_movement_controller__crouch_up"]
+[connection signal="_crouch_wall" from="MovementController" to="CatAnimation" method="_on_movement_controller__crouch_wall"]
 [connection signal="_dash_begin" from="MovementController" to="Effects" method="_dash_begin"]
 [connection signal="_dash_end" from="MovementController" to="Effects" method="_dash_end"]
 [connection signal="_fall_idle" from="MovementController" to="Effects" method="_fall_idle"]
