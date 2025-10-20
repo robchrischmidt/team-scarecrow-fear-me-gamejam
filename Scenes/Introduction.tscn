@@ -1,0 +1,65 @@
+[gd_scene load_steps=4 format=3 uid="uid://b0tofd0256hm2"]
+
+[ext_resource type="Script" uid="uid://b7tv7mqahw4oy" path="res://Scenes/Introduction.gd" id="1_0iv18"]
+[ext_resource type="Texture2D" uid="uid://cv6k74obskxwy" path="res://Assets/Art/intro_fire.png" id="2_nx00x"]
+[ext_resource type="AudioStream" uid="uid://boq5w0wda8ld" path="res://Assets/Sound/cat_purring_metz_779220.wav" id="3_75w15"]
+
+[node name="Introduction" type="Node2D"]
+script = ExtResource("1_0iv18")
+
+[node name="Fury" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(512, 384)
+texture = ExtResource("2_nx00x")
+
+[node name="Block" type="ColorRect" parent="."]
+unique_name_in_owner = true
+offset_right = 1152.0
+offset_bottom = 864.0
+color = Color(0, 0, 0, 1)
+
+[node name="Text1" type="Label" parent="."]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+offset_left = 240.0
+offset_top = 160.0
+offset_right = 387.0
+offset_bottom = 183.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "You are darkness..."
+
+[node name="Text2" type="Label" parent="."]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+offset_left = 704.0
+offset_top = 344.0
+offset_right = 835.0
+offset_bottom = 367.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Fear personified-"
+
+[node name="Text3" type="Label" parent="."]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+offset_left = 248.0
+offset_top = 488.0
+offset_right = 423.0
+offset_bottom = 511.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "Come Halloween night"
+
+[node name="Text4" type="Label" parent="."]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+offset_left = 632.0
+offset_top = 632.0
+offset_right = 923.0
+offset_bottom = 655.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "All of mankind shall know your name!"
+
+[node name="PurrPlayer" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_75w15")
+volume_db = -20.0
+autoplay = true

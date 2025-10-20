@@ -1,20 +1,37 @@
-[gd_scene load_steps=4 format=3 uid="uid://djne5ew6vmlf7"]
+[gd_scene load_steps=7 format=3 uid="uid://djne5ew6vmlf7"]
 
 [ext_resource type="Script" uid="uid://bb6hjmcbvl4k5" path="res://Objects/Pickups/Item.gd" id="1_3ecan"]
+[ext_resource type="Texture2D" uid="uid://b6uc2532qteky" path="res://Assets/Art/peppers.png" id="2_qrgb8"]
+[ext_resource type="Texture2D" uid="uid://dtmk11lun14y5" path="res://Assets/Art/peppers_1.png" id="3_7dqsc"]
+[ext_resource type="Texture2D" uid="uid://crwd4cmopcxni" path="res://Assets/Art/peppers_2.png" id="3_rt0jl"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cwqtq"]
 radius = 32.0
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_cwqtq"]
-size = Vector2(60, 60)
+[sub_resource type="SpriteFrames" id="SpriteFrames_qrgb8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_7dqsc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_rt0jl")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="Horns" type="Area2D"]
-monitoring = false
 script = ExtResource("1_3ecan")
 item_name = "horns"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_cwqtq")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = SubResource("PlaceholderTexture2D_cwqtq")
+[node name="Base" type="Sprite2D" parent="."]
+texture = ExtResource("2_qrgb8")
+
+[node name="Item" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_qrgb8")
+autoplay = "default"

@@ -11,13 +11,14 @@ config_version=5
 [application]
 
 config/name="Fear-me-gamejam"
-run/main_scene="uid://djxgahdmlk5yk"
+run/main_scene="uid://b0tofd0256hm2"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
 Exit="*res://Globals/Exit.gd"
+MenuMusic="*res://Globals/MenuMusic.gd"
 
 [display]
 

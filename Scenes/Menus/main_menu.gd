@@ -5,13 +5,11 @@ extends Control
 
 var audio_tween : Tween
 
+var player : AudioStreamPlayer
+
 #Called when the node enters the scene tree for the first time.
 func _ready(): #puts focus on top button
 	$VBoxContainer/Start.grab_focus()
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
 
 func _on_start_pressed() -> void:
 	audio_tween = create_tween()
@@ -19,11 +17,15 @@ func _on_start_pressed() -> void:
 	audio_tween.play()
 	await audio_tween.finished
 	
-	get_tree().change_scene_to_file("res://Scenes/L1.tscn")
+	MenuMusic.player.stop()
+	
+	get_tree().change_scene_to_file("res://Scenes/Introduction.tscn")
 
 func audio_fade(ratio : float):
-	%MainThemePlayer.volume_db = -fade_intensity*ratio
-	
+	MenuMusic.player.volume_db = -fade_intensity*ratio
+
+func _on_controls_pressed() -> void:
+	get_tree().change_scene_to_file("res://Scenes/Menus/controlmenu.tscn")
 
 func _on_credits_pressed() -> void:
 	get_tree().change_scene_to_file("res://Scenes/Menus/credits.tscn")

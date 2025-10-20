@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://cmkmgglg2fqsn"]
+
+[sub_resource type="TileSet" id="TileSet_gjrna"]
+resource_local_to_scene = true
+tile_size = Vector2i(128, 128)
+physics_layer_0/collision_layer = 2
+physics_layer_0/collision_mask = 2
+
+[node name="ClimbableLayer" type="TileMapLayer"]
+tile_set = SubResource("TileSet_gjrna")

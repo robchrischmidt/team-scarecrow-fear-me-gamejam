@@ -67,11 +67,8 @@ grow_vertical = 2
 z_index = 1
 layout_mode = 2
 size_flags_vertical = 3
-text = "These are your controls
-W
-A
-S
-D
-and many more..."
+text = "Movement: WASD/Arrow Keys
+Meow: Q
+Jump: "
 horizontal_alignment = 1
 vertical_alignment = 1

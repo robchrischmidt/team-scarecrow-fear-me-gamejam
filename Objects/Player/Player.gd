@@ -22,19 +22,19 @@ func _on_pickup_area_area_entered(item: Area2D) -> void:
 			"horns":
 				print("Picking up horns!")
 				has_horns = true
-				item.queue_free()
+				item.get_node("Item").queue_free()
 				_pickup.emit()
 			"eyes":
 				print("Picking up eyes!")
 				has_eyes = true
-				item.queue_free()
+				item.get_node("Item").queue_free()
 				_pickup.emit()
 			"knife":
 				print("Picking up knife!")
 				has_knife = true
-				item.queue_free()
+				item.get_node("Item").queue_free()
 				_pickup.emit()
-	pass # Replace with function body.
+
 
 func _ready() -> void:
 	for door in get_tree().get_nodes_in_group("doors"):
@@ -44,6 +44,8 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("Meow"):
-		#play meow
-		await get_tree().create_timer(.2).timeout
+		%MeowPlayer.play()
+		await get_tree().create_timer(%MeowPlayer.stream.get_length()).timeout
 		meowed.emit()
+	
+	
