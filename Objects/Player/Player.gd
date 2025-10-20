@@ -14,7 +14,7 @@ signal meowed
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("Exit"):
-		get_tree().quit()
+		get_tree().change_scene_to_file("res://Scenes/Menus/main_menu.tscn")
 
 func _on_pickup_area_area_entered(item: Area2D) -> void:
 	if is_instance_of(item, Item):
@@ -22,17 +22,17 @@ func _on_pickup_area_area_entered(item: Area2D) -> void:
 			"horns":
 				print("Picking up horns!")
 				has_horns = true
-				item.get_node("Item").queue_free()
+				item.pickup()
 				_pickup.emit()
 			"eyes":
 				print("Picking up eyes!")
 				has_eyes = true
-				item.get_node("Item").queue_free()
+				item.pickup()
 				_pickup.emit()
 			"knife":
 				print("Picking up knife!")
 				has_knife = true
-				item.get_node("Item").queue_free()
+				item.pickup()
 				_pickup.emit()
 
 

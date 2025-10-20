@@ -16,6 +16,7 @@ signal _dash_end
 
 signal _crouch_down
 signal _crouch_up
+signal _crouch_wall
 
 signal _climb_move
 signal _climb_idle
@@ -51,6 +52,7 @@ signal _climb_idle
 var jump_start_tick_msec : int
 var jump_wall_boost : Vector2
 var jump_happened_tick_msec : int
+var climb_jump_windup : bool = false
 
 var state_machine : StateMachine
 
@@ -141,10 +143,13 @@ func jump_windup_process(delta : float):
 	var ratio_distance = min((Time.get_ticks_msec() - jump_start_tick_msec)/jump_windup_msec, 1) * 300
 	var mouse_dir = c_body.get_local_mouse_position().normalized()
 	
-	if mouse_dir.y > -0.3:
-		_crouch_down.emit()
+	if not climb_jump_windup:
+		if mouse_dir.y > -0.3:
+			_crouch_down.emit()
+		else:
+			_crouch_up.emit()
 	else:
-		_crouch_up.emit()
+		_crouch_wall.emit()
 
 	if mouse_dir.x < 0:
 		x_facing = Constants.LEFT
@@ -200,6 +205,7 @@ func climb_move_phys_process(delta : float):
 		if x_facing == Constants.LEFT:
 			x_facing = Constants.RIGHT
 		
+		climb_jump_windup = true
 		state_machine.transfer("JumpWindup")
 		return
 
@@ -247,6 +253,7 @@ func climb_idle_phys_process(delta: float):
 		if x_facing == Constants.LEFT:
 			x_facing = Constants.RIGHT
 		
+		climb_jump_windup = true
 		state_machine.transfer("JumpWindup")
 		return
 
@@ -281,6 +288,7 @@ func idle_phys_process(delta : float):
 		return
 	
 	if can_jump("LongJump"):
+		climb_jump_windup = false
 		state_machine.transfer("JumpWindup", "Idle")
 		return
 
@@ -303,6 +311,7 @@ func move_phys_process(delta : float):
 		return
 	
 	if can_jump("LongJump"):
+		climb_jump_windup = false
 		state_machine.transfer("JumpWindup", "Idle")
 		return
 	

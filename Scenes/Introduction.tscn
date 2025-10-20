@@ -58,6 +58,27 @@ offset_bottom = 655.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "All of mankind shall know your name!"
 
+[node name="Text5" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = 400.0
+offset_top = 528.0
+offset_right = 654.0
+offset_bottom = 629.0
+text = "Your objective is to collect the 
+most terrifying costume possible
+
+Press <Space> to continue"
+horizontal_alignment = 1
+
+[node name="TextSkip" type="Label" parent="."]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+offset_left = 848.0
+offset_top = 736.0
+offset_right = 1012.0
+offset_bottom = 759.0
+text = "Press <Tab> to skip"
+
 [node name="PurrPlayer" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("3_75w15")

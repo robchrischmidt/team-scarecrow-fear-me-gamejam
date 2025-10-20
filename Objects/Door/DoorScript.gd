@@ -18,14 +18,15 @@ func _on_area_2d_body_exited(body: Node2D) -> void:
 
 
 func _on_door_meowed() -> void:
-	if (in_range):
-		if !opened:
-			opened = true
-			$DoorCollision.set_deferred("disabled", true)
-			# play door open sound
-			$AnimatedSprite2D.play("opening")
-		else:
-			_on_door_close()
+	pass
+	#if (in_range):
+		#if !opened:
+			#opened = true
+			#$DoorCollision.set_deferred("disabled", true)
+			## play door open sound
+			#$AnimatedSprite2D.play("opening")
+		#else:
+			#_on_door_close()
 
 #making this a separate function in case I decide to have doors automatically close
 func _on_door_close() -> void: 

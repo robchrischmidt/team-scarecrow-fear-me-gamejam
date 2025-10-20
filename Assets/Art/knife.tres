@@ -1,6 +1,7 @@
-[gd_resource type="SpriteFrames" load_steps=26 format=3 uid="uid://cpy0l87gjbax6"]
+[gd_resource type="SpriteFrames" load_steps=27 format=3 uid="uid://cpy0l87gjbax6"]
 
 [ext_resource type="Texture2D" uid="uid://br3pamou86eyl" path="res://Assets/Art/knife_sprites.png" id="1_17ehf"]
+[ext_resource type="Texture2D" uid="uid://be81abwtr8lux" path="res://Assets/Art/jump_prep_wall_knife.png" id="2_sj32e"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_17ehf"]
 atlas = ExtResource("1_17ehf")
@@ -180,6 +181,9 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ednk7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_sj32e")
 }],
 "loop": true,
 "name": &"jump_prep",
