@@ -1,12 +1,26 @@
-[gd_scene load_steps=4 format=3 uid="uid://1pj0kqeuwlmr"]
+[gd_scene load_steps=7 format=3 uid="uid://1pj0kqeuwlmr"]
 
 [ext_resource type="Script" uid="uid://bb6hjmcbvl4k5" path="res://Objects/Pickups/Item.gd" id="1_bvb5p"]
+[ext_resource type="Texture2D" uid="uid://beyqqj3meoaen" path="res://Assets/Art/pb.png" id="2_pimxt"]
+[ext_resource type="Texture2D" uid="uid://bf8k6enqeueop" path="res://Assets/Art/knife_2.png" id="3_w3gpj"]
+[ext_resource type="Texture2D" uid="uid://46h6ffbwcljl" path="res://Assets/Art/knife_1.png" id="4_k42yg"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pimxt"]
 radius = 32.0
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_cp014"]
-size = Vector2(60, 60)
+[sub_resource type="SpriteFrames" id="SpriteFrames_w3gpj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_k42yg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_w3gpj")
+}],
+"loop": true,
+"name": &"default",
+"speed": 1.0
+}]
 
 [node name="Knife" type="Area2D"]
 script = ExtResource("1_bvb5p")
@@ -15,5 +29,11 @@ item_name = "knife"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_pimxt")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = SubResource("PlaceholderTexture2D_cp014")
+[node name="Base" type="Sprite2D" parent="."]
+texture = ExtResource("2_pimxt")
+
+[node name="Item" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_w3gpj")
+autoplay = "default"
+frame = 1
+frame_progress = 0.961875

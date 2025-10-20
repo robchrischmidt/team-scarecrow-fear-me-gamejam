@@ -19,7 +19,7 @@ func _on_start_pressed() -> void:
 	
 	MenuMusic.player.stop()
 	
-	get_tree().change_scene_to_file("res://Scenes/L1.tscn")
+	get_tree().change_scene_to_file("res://Scenes/Introduction.tscn")
 
 func audio_fade(ratio : float):
 	MenuMusic.player.volume_db = -fade_intensity*ratio

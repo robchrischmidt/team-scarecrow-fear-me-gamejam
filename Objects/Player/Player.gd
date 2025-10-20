@@ -22,17 +22,17 @@ func _on_pickup_area_area_entered(item: Area2D) -> void:
 			"horns":
 				print("Picking up horns!")
 				has_horns = true
-				item.queue_free()
+				item.get_node("Item").queue_free()
 				_pickup.emit()
 			"eyes":
 				print("Picking up eyes!")
 				has_eyes = true
-				item.queue_free()
+				item.get_node("Item").queue_free()
 				_pickup.emit()
 			"knife":
 				print("Picking up knife!")
 				has_knife = true
-				item.queue_free()
+				item.get_node("Item").queue_free()
 				_pickup.emit()
 
 

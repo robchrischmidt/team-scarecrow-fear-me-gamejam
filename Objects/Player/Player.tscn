@@ -188,7 +188,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 z_index = 1
 safe_margin = 0.1
 script = ExtResource("1_we6tp")
@@ -216,7 +216,6 @@ position = Vector2(-34.5, 0)
 shape = SubResource("RectangleShape2D_ebgc0")
 
 [node name="PickupArea" type="Area2D" parent="."]
-monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PickupArea"]
 shape = SubResource("RectangleShape2D_7t0p5")
