@@ -1,0 +1,56 @@
+[gd_scene load_steps=5 format=3 uid="uid://25w6mx0rvebx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_84j1e"]
+size = Vector2(20, 96)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_haeuc"]
+size = Vector2(20, 96)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rsbvo"]
+size = Vector2(10, 100)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vmd5e"]
+size = Vector2(20, 100.5)
+
+[node name="Light Manager" type="Node2D"]
+
+[node name="Enter" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enter"]
+position = Vector2(0, 38)
+shape = SubResource("RectangleShape2D_84j1e")
+
+[node name="Exit" type="Area2D" parent="."]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Exit"]
+position = Vector2(209, 40)
+shape = SubResource("RectangleShape2D_haeuc")
+
+[node name="OffFailsafe" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OffFailsafe"]
+position = Vector2(-47, 40)
+shape = SubResource("RectangleShape2D_rsbvo")
+debug_color = Color(0.701809, 0.49113, 0, 0.42)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="OffFailsafe"]
+position = Vector2(247, 38)
+shape = SubResource("RectangleShape2D_rsbvo")
+debug_color = Color(0.701809, 0.49113, 0, 0.42)
+
+[node name="OnFailsafe" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OnFailsafe"]
+position = Vector2(54, 40.75)
+shape = SubResource("RectangleShape2D_vmd5e")
+debug_color = Color(0.304342, 0.627622, 0, 0.42)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="OnFailsafe"]
+position = Vector2(152, 42)
+shape = SubResource("RectangleShape2D_vmd5e")
+debug_color = Color(0.304342, 0.627622, 0, 0.42)
+
+[connection signal="body_entered" from="Enter" to="." method="_on_enter_body_entered"]
+[connection signal="body_entered" from="Exit" to="." method="_on_exit_body_entered"]
+[connection signal="body_entered" from="OffFailsafe" to="." method="_on_off_failsafe_body_entered"]
+[connection signal="body_entered" from="OnFailsafe" to="." method="_on_on_failsafe_body_entered"]

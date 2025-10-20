@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=4 uid="uid://djxgahdmlk5yk"]
+[gd_scene load_steps=29 format=4 uid="uid://djxgahdmlk5yk"]
 
 [ext_resource type="Script" uid="uid://bmj4yr0ksda7h" path="res://Scenes/L1.gd" id="1_2osvy"]
 [ext_resource type="PackedScene" uid="uid://bl6wh4amp8ljg" path="res://Objects/Player/Player.tscn" id="1_f0cto"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://cmkmgglg2fqsn" path="res://Objects/ClimbableLayer.tscn" id="11_udm84"]
 [ext_resource type="PackedScene" uid="uid://cun7swyyh6dd7" path="res://Objects/cabinet.tscn" id="12_t2vvu"]
 [ext_resource type="PackedScene" uid="uid://cekx7088y5rpt" path="res://Objects/fridge.tscn" id="13_wbmii"]
+[ext_resource type="Script" uid="uid://ctsas6j7an46d" path="res://LightManagers.gd" id="16_udm84"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_p6kh4"]
 friction = 0.0
@@ -94,6 +95,18 @@ physics_layer_0/collision_layer = 2
 physics_layer_0/collision_mask = 2
 sources/2 = SubResource("TileSetAtlasSource_rvwe0")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5kpyu"]
+size = Vector2(20, 96)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rvwe0"]
+size = Vector2(20, 96)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gv3v3"]
+size = Vector2(10, 100)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p0cam"]
+size = Vector2(20, 100.5)
+
 [node name="L1" type="Node2D"]
 script = ExtResource("1_2osvy")
 
@@ -140,3 +153,51 @@ offset_top = -368.0
 offset_right = -64.0
 offset_bottom = -312.0
 text = "Jump to the chandelier!"
+
+[node name="Shadows" type="CanvasModulate" parent="."]
+modulate = Color(0.210432, 0, 0.0537519, 1)
+
+[node name="Light Managers" type="Node2D" parent="."]
+script = ExtResource("16_udm84")
+
+[node name="Enter" type="Area2D" parent="Light Managers"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Light Managers/Enter"]
+position = Vector2(1298, -448)
+shape = SubResource("RectangleShape2D_5kpyu")
+
+[node name="Exit" type="Area2D" parent="Light Managers"]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Light Managers/Exit"]
+position = Vector2(1520, -450)
+shape = SubResource("RectangleShape2D_rvwe0")
+debug_color = Color(0.8366, 0, 0.433427, 0.42)
+
+[node name="OffFailsafe" type="Area2D" parent="Light Managers"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Light Managers/OffFailsafe"]
+position = Vector2(1223, -444)
+shape = SubResource("RectangleShape2D_gv3v3")
+debug_color = Color(0.701809, 0.49113, 0, 0.42)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Light Managers/OffFailsafe"]
+position = Vector2(1589, -446)
+shape = SubResource("RectangleShape2D_gv3v3")
+debug_color = Color(0.701809, 0.49113, 0, 0.42)
+
+[node name="OnFailsafe" type="Area2D" parent="Light Managers"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Light Managers/OnFailsafe"]
+position = Vector2(1361, -446)
+shape = SubResource("RectangleShape2D_p0cam")
+debug_color = Color(0.304342, 0.627622, 0, 0.42)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Light Managers/OnFailsafe"]
+position = Vector2(1428, -448)
+shape = SubResource("RectangleShape2D_p0cam")
+debug_color = Color(0.304342, 0.627622, 0, 0.42)
+
+[connection signal="body_entered" from="Light Managers/Enter" to="Light Managers" method="_on_enter_body_entered"]
+[connection signal="body_entered" from="Light Managers/Exit" to="Light Managers" method="_on_exit_body_entered"]
+[connection signal="body_entered" from="Light Managers/OffFailsafe" to="Light Managers" method="_on_off_failsafe_body_entered"]
+[connection signal="body_entered" from="Light Managers/OnFailsafe" to="Light Managers" method="_on_on_failsafe_body_entered"]

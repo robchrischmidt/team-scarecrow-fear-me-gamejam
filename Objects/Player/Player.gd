@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+@onready var light = $TheLight
+
 ## I'm going to have the Player code exclusively handle parameters that we need to 
 ## transfer between levels. 
 

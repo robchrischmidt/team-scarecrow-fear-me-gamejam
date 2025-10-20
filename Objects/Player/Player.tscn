@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://bl6wh4amp8ljg"]
+[gd_scene load_steps=33 format=3 uid="uid://bl6wh4amp8ljg"]
 
 [ext_resource type="Script" uid="uid://c1kret0ix6iht" path="res://Objects/Player/Player.gd" id="1_we6tp"]
 [ext_resource type="Script" uid="uid://br1vs868dmesp" path="res://Objects/Player/Effects.gd" id="2_oansn"]
@@ -188,6 +188,15 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Gradient" id="Gradient_ebgc0"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1ggq4"]
+gradient = SubResource("Gradient_ebgc0")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.165138, 0.183486)
+
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 z_index = 1
 safe_margin = 0.1
@@ -299,6 +308,12 @@ offset = Vector2(12.095, 0)
 [node name="EyesSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_wpnx7")
 animation = &"jump_prep"
+
+[node name="TheLight" type="PointLight2D" parent="."]
+position = Vector2(2, 12)
+scale = Vector2(3.03125, 2.125)
+enabled = false
+texture = SubResource("GradientTexture2D_1ggq4")
 
 [connection signal="_pickup" from="." to="CatAnimation" method="_on_player__pickup"]
 [connection signal="area_entered" from="PickupArea" to="." method="_on_pickup_area_area_entered"]
