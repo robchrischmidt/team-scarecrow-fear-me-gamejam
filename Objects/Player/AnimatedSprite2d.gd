@@ -66,7 +66,7 @@ func _on_movement_controller__air_move() -> void:
 	play_anims("fall_move", 1)
 
 func _on_movement_controller__jump_idle() -> void:
-	play_anims("fall", 1)
+	play_anims("fall_move", 1)
 
 func _on_movement_controller__jump_move() -> void:
 	play_anims("fall_move", 1)
