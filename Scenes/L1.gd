@@ -12,3 +12,8 @@ func _ready() -> void:
 	await tween.finished
 	
 	print("Tween complete")
+
+
+func _on_player__pickup() -> void:
+	if %Player.has_eyes:
+		%DarkRoom.color = Color(20, 20, 20, 0)
