@@ -105,8 +105,8 @@ debug_color = Color(0.786676, 0.411795, 0.357551, 0.42)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_qtlwo")
-animation = &"sway"
-autoplay = "sway"
+animation = &"stable"
+autoplay = "stable"
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

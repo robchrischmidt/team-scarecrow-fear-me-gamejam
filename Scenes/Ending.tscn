@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://3bkrmgbhyeqn"]
+
+[ext_resource type="Script" uid="uid://bwrb4pniy38j0" path="res://Scenes/Ending.gd" id="1_sbbak"]
+[ext_resource type="Texture2D" uid="uid://cxl6qmfli8yye" path="res://Assets/Art/endscreen.png" id="2_j7kmc"]
+
+[node name="Ending" type="Node2D"]
+script = ExtResource("1_sbbak")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(499, 389)
+texture = ExtResource("2_j7kmc")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 261.0
+offset_top = 543.0
+offset_right = 776.0
+offset_bottom = 702.0
+text = "You did it. You are now absolutely terrifying.
+Press any key to go to main menu."
+horizontal_alignment = 1

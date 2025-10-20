@@ -2,11 +2,14 @@ extends StaticBody2D
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	$AnimatedSprite2D.play("stable")
-
+	if body.is_in_group("player"):
+		$AnimatedSprite2D.play("sway")
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
-	$AnimatedSprite2D.play("sway")
+	if body.is_in_group("player"):
+		print("Start sway")
+		$AnimatedSprite2D.play("stable")
+
 
 func _process(delta : float) -> void:
 	var player : CharacterBody2D = get_tree().get_first_node_in_group("player")

@@ -69,6 +69,7 @@ layout_mode = 2
 size_flags_vertical = 3
 text = "Movement: WASD/Arrow Keys
 Meow: Q
-Jump: <Space>"
+Jump: <Space>
+Long Jump: Click and hold"
 horizontal_alignment = 1
 vertical_alignment = 1
